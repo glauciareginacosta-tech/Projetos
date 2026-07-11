@@ -1,0 +1,20 @@
+Demanda;PF;PF_IA;EscopoResumido;ResumoErros;Data contagem
+AA1;4.6;25;Emissão de Nota em lote. ;"Excel -> AIE;
+Confirmação emissão -> SE;
+Download template - CE;
+Lista de erros na emissão -> CE";46209
+AA2;4.6;35;Emissão de nota manual;"Estrutura de dado não encontrada no escopo -> Ali
+validação CNPJ -> AIE
+Validação municipio -> AIE
+Emissão de mensagem de erro -> SE
+Emissão de mensagem de confirmação -> SE";46209
+AA3;9.2;46;Consultar nota XML e críticas;"Filtros para se executar consulta -> EE
+Botao de ação do filtro -> EE
+Foram contados saida externa e consulta externa para as funcionalidades de consultar XML e consultar críticas. As funcionalidades procedem entretanto é contada apenas uma vez pela técnica. -> CE e SE 2x
+Base de Notas e críticas -> ALI (que só foram consultadas)
+Mensagem vivo ->AIE
+Integração prefeitura .> AIE
+";46209
+AA4;3.68;4;Consultar menu;A IA ficou com dúvida se a funcionalidade era 3 ou 4 PFs. Coloquei o maior valor.;46209
+AA5;6.9;18;Consulta telas de links (6 telas);Consulta externa para consultar telas fixas. com hiperlinks.;46209
+AA6;9.6;11;Parametrizar acesso;Itens parametrizados contados como se houvesse alteração no desenvolvimento das funções.;46209
