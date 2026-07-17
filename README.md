@@ -36,5 +36,3 @@ providing insights into the reliability and limitations of AI-based counting met
 ## Notes
 - Ensure that **no API keys or secrets** are committed to the repository.  
 - The AI justification function is **experimental** and intended for illustrative purposes only.  
-
-Quer que eu também prepare uma versão mais **acadêmica** (voltada para artigos e papers) ou mais **corporativa** (voltada para relatórios empresariais)?
