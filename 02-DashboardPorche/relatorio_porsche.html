@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porsche Brasil | Dashboard Executivo de Vendas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        porsche: {
+                            red: '#D5001C',
+                            dark: '#0B0B0B',
+                            card: '#141414',
+                            border: '#262626',
+                            text: '#E5E5E5',
+                            muted: '#9CA3AF',
+                            gold: '#C5A059'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Porsche Next', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome para ícones refinados -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0b0b0b; color: #e5e5e5; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0b0b; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D5001C; }
+        .porsche-glow { box-shadow: 0 0 25px rgba(213, 0, 28, 0.15); }
+    </style>
+</head>
+<body class="bg-porsche-dark text-porsche-text min-h-screen flex flex-col selection:bg-porsche-red selection:text-white">
+
+    <!-- Header Oficial Inspirado na Porsche Brasil -->
+    <header class="border-b border-porsche-border bg-porsche-dark/95 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-6">
+                <!-- Logotipo Estilizado Porsche -->
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <svg class="h-8 w-auto text-white fill-current" viewBox="0 0 160 35">
+                        <text x="0" y="27" font-family="Inter, sans-serif" font-weight="900" font-size="28" letter-spacing="3">PORSCHE</text>
+                    </svg>
+                    <span class="text-xs uppercase tracking-widest text-porsche-red font-semibold border-l border-porsche-border pl-3 hidden sm:inline-block">Brasil Insights</span>
+                </div>
+            </div>
+            
+            <!-- Links de Navegação Superior / Status -->
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex items-center space-x-2 text-xs text-porsche-muted bg-porsche-card px-3 py-1.5 rounded-full border border-porsche-border">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Dados Sincronizados (100 Vendas Analisadas)</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="resetFilters()" class="text-xs uppercase tracking-wider text-porsche-muted hover:text-white transition px-3 py-1.5 rounded border border-porsche-border hover:border-porsche-red">
+                        <i class="fa-solid fa-rotate-right mr-1.5"></i> Resetar Filtros
+                    </button>
+                    <div class="w-10 h-10 rounded-full bg-porsche-card border border-porsche-border flex items-center justify-center text-porsche-red font-bold">
+                        PB
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
+
+        <!-- Título da Seção & Introdução Elegante -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-porsche-border pb-6 gap-4">
+            <div>
+                <span class="text-porsche-red text-xs uppercase font-bold tracking-widest">Painel Executivo de Inteligência Comercial</span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mt-1">Performance & Analytics de Veículos</h1>
+                <p class="text-porsche-muted text-sm mt-1">Análise aprofundada de vendas, distribuição regional, anos de modelo e preferências de pagamento.</p>
+            </div>
+            <div class="flex items-center space-x-3 text-sm text-porsche-muted bg-porsche-card px-4 py-2 rounded-lg border border-porsche-border">
+                <i class="fa-regular fa-calendar-days text-porsche-red"></i>
+                <span>Período Ativo: <strong class="text-white">2020 — 2026</strong></span>
+            </div>
+        </div>
+
+        <!-- Seção de Filtros Interativos (Conforme Requisito) -->
+        <section class="bg-porsche-card border border-porsche-border rounded-xl p-6 shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-semibold uppercase tracking-wider text-white flex items-center">
+                    <i class="fa-solid fa-sliders text-porsche-red mr-2"></i> Filtros Globais de Inteligência
+                </h2>
+                <span id="active-filters-count" class="text-xs bg-porsche-red/10 text-porsche-red px-2.5 py-1 rounded font-medium border border-porsche-red/20">Exibindo todos os registros</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Filtro: Modelo do Porsche -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-porsche-muted mb-1.5 font-medium">Modelo do Porsche</label>
+                    <select id="filter-model" onchange="applyFilters()" class="w-full bg-porsche-dark border border-porsche-border text-white text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-porsche-red transition">
+                        <option value="">Todos os Modelos</option>
+                    </select>
+                </div>
+                <!-- Filtro: Model Year -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-porsche-muted mb-1.5 font-medium">Ano do Modelo (Model Year)</label>
+                    <select id="filter-year" onchange="applyFilters()" class="w-full bg-porsche-dark border border-porsche-border text-white text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-porsche-red transition">
+                        <option value="">Todos os Anos</option>
+                    </select>
+                </div>
+                <!-- Filtro: City -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-porsche-muted mb-1.5 font-medium">Cidade</label>
+                    <select id="filter-city" onchange="applyFilters()" class="w-full bg-porsche-dark border border-porsche-border text-white text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-porsche-red transition">
+                        <option value="">Todas as Cidades</option>
+                    </select>
+                </div>
+                <!-- Filtro: Pay Method -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-porsche-muted mb-1.5 font-medium">Método de Pagamento</label>
+                    <select id="filter-pay" onchange="applyFilters()" class="w-full bg-porsche-dark border border-porsche-border text-white text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-porsche-red transition">
+                        <option value="">Todos os Métodos</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de KPIs Principais -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- KPI 1 -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 relative overflow-hidden group hover:border-porsche-red/50 transition">
+                <div class="absolute top-0 right-0 p-4 text-porsche-red/10 text-4xl group-hover:text-porsche-red/20 transition">
+                    <i class="fa-solid fa-car-side"></i>
+                </div>
+                <span class="text-xs uppercase tracking-wider text-porsche-muted font-medium">Volume Total Vendido</span>
+                <div class="text-3xl font-extrabold text-white mt-2" id="kpi-total-sales">100</div>
+                <div class="text-xs text-emerald-400 mt-2 flex items-center">
+                    <i class="fa-solid fa-arrow-trend-up mr-1"></i> 100% Base Conectada
+                </div>
+            </div>
+            <!-- KPI 2 -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 relative overflow-hidden group hover:border-porsche-red/50 transition">
+                <div class="absolute top-0 right-0 p-4 text-porsche-red/10 text-4xl group-hover:text-porsche-red/20 transition">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                </div>
+                <span class="text-xs uppercase tracking-wider text-porsche-muted font-medium">Faturamento Total</span>
+                <div class="text-3xl font-extrabold text-white mt-2" id="kpi-total-revenue">$11.8M</div>
+                <div class="text-xs text-porsche-muted mt-2">Média por veículo monitorada</div>
+            </div>
+            <!-- KPI 3 -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 relative overflow-hidden group hover:border-porsche-red/50 transition">
+                <div class="absolute top-0 right-0 p-4 text-porsche-red/10 text-4xl group-hover:text-porsche-red/20 transition">
+                    <i class="fa-solid fa-calendar-star"></i>
+                </div>
+                <span class="text-xs uppercase tracking-wider text-porsche-muted font-medium">Ano de Maior Saída</span>
+                <div class="text-3xl font-extrabold text-white mt-2" id="kpi-top-year">2024 (29un)</div>
+                <div class="text-xs text-porsche-red mt-2 font-medium">Pico de Demanda do Período</div>
+            </div>
+            <!-- KPI 4 -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 relative overflow-hidden group hover:border-porsche-red/50 transition">
+                <div class="absolute top-0 right-0 p-4 text-porsche-red/10 text-4xl group-hover:text-porsche-red/20 transition">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <span class="text-xs uppercase tracking-wider text-porsche-muted font-medium">Modelo Mais Desejado</span>
+                <div class="text-2xl font-extrabold text-white mt-2 truncate" id="kpi-top-model" title="Panamera / Cayenne Coupe / Macan T">Panamera / Macan T</div>
+                <div class="text-xs text-emerald-400 mt-2">Líderes em volume geral</div>
+            </div>
+        </div>
+
+        <!-- Seção de Resposta às Perguntas de Negócio (Gráficos) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Pergunta 1: Quais os principais modelos de carros vendidos por cidade -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-porsche-red uppercase font-bold tracking-wider">Pergunta de Negócio #1</span>
+                        <span class="text-xs text-porsche-muted"><i class="fa-solid fa-city mr-1"></i> Distribuição Regional</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Principais Modelos Vendidos por Cidade</h3>
+                    <p class="text-xs text-porsche-muted mb-4">Panorama comparativo dos modelos de maior saída nas principais praças ativas.</p>
+                </div>
+                <div class="relative h-72 w-full">
+                    <canvas id="chartCityModel"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-porsche-border text-xs text-porsche-muted flex items-center justify-between">
+                    <span>Destaque: Cidades com forte demanda esportiva e SUV.</span>
+                    <span class="text-white font-medium">Top Praças Monitoradas</span>
+                </div>
+            </div>
+
+            <!-- Pergunta 2: Qual o ano de carro de modelo de carro mais saiu em um período -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-porsche-red uppercase font-bold tracking-wider">Pergunta de Negócio #2</span>
+                        <span class="text-xs text-porsche-muted"><i class="fa-solid fa-chart-line mr-1"></i> Tendência Temporal</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Volume de Vendas por Model Year (Ano do Modelo)</h3>
+                    <p class="text-xs text-porsche-muted mb-4">Identificação clara do ano de modelo com maior expressividade de saída no período analisado.</p>
+                </div>
+                <div class="relative h-72 w-full">
+                    <canvas id="chartModelYear"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-porsche-border text-xs text-porsche-muted flex items-center justify-between">
+                    <span>Pico Identificado: <strong class="text-white">Ano 2024 (29 unidades comercializadas)</strong></span>
+                    <span class="text-porsche-red font-semibold">Análise de Safra</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Pergunta 3 & Insights de Carros Populares / Volume por Cada Cidade -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Gráfico de Formas de Pagamento -->
+            <div class="bg-porsche-card border border-porsche-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <span class="text-xs text-porsche-red uppercase font-bold tracking-wider">Perfil Financeiro</span>
+                    <h3 class="text-lg font-bold text-white mb-1">Métodos de Pagamento</h3>
+                    <p class="text-xs text-porsche-muted mb-4">Preferências transacionais dos clientes Porsche.</p>
+                </div>
+                <div class="relative h-60 w-full flex items-center justify-center">
+                    <canvas id="chartPayMethod"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-porsche-border text-xs text-porsche-muted text-center">
+                    Transações seguras e diversificadas (Wire Transfer, Financiamento, Cash).
+                </div>
+            </div>
+
+            <!-- Insights Estratégicos Baseados em Dados (Requisito Especial) -->
+            <div class="lg:col-span-2 bg-porsche-card border border-porsche-border rounded-xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs text-porsche-red uppercase font-bold tracking-wider">Pergunta de Negócio #3 & Insights Estratégicos</span>
+                        <span class="text-xs text-porsche-muted"><i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> Inteligência de Mercado</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Análise de Carros Populares e de Alto Giro por Cidade</h3>
+                    <p class="text-xs text-porsche-muted mb-4">Com base no cruzamento de dados por praça, destacam-se os seguintes comportamentos de consumo:</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-auto">
+                    <div class="bg-porsche-dark border border-porsche-border p-4 rounded-lg">
+                        <div class="flex items-center space-x-2 text-white font-semibold text-sm mb-1">
+                            <i class="fa-solid fa-fire text-porsche-red"></i>
+                            <span>Dominância dos SUVs (Macan & Cayenne)</span>
+                        </div>
+                        <p class="text-xs text-porsche-muted leading-relaxed">
+                            Em centros urbanos dinâmicos como <strong>Mesa</strong>, <strong>Jacksonville</strong> e <strong>Austin</strong>, as linhas Macan (incluindo Macan T e Macan Electric) e Cayenne Coupe lideram com alta frequência de vendas, representando a principal porta de entrada e volume popular da marca.
+                        </p>
+                    </div>
+                    <div class="bg-porsche-dark border border-porsche-border p-4 rounded-lg">
+                        <div class="flex items-center space-x-2 text-white font-semibold text-sm mb-1">
+                            <i class="fa-solid fa-gauge-high text-porsche-gold"></i>
+                            <span>Esportividade Icônica (911 & 718)</span>
+                        </div>
+                        <p class="text-xs text-porsche-muted leading-relaxed">
+                            Cidades como <strong>Las Vegas</strong>, <strong>Oakland</strong> e <strong>Dallas</strong> apresentam forte apetite por versões de alta performance da família 911 (como GT3 e Dakar) e Taycan, demonstrando que clientes destas praças buscam exclusividade tecnológica e pedigree de pista.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-porsche-border flex items-center justify-between text-xs text-porsche-muted">
+                    <span>Recomendação: Direcionar campanhas de estoque Macan/Cayenne para praças de alto giro.</span>
+                    <span class="text-white font-semibold">Porsche Data Intelligence</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer Fiel ao Estilo Oficial -->
+    <footer class="border-t border-porsche-border bg-porsche-card mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-porsche-muted">
+            <div>
+                <p>&copy; 2026 Porsche Brasil. Todos os direitos reservados. Desenvolvido com padrão visual oficial.</p>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white transition">Privacidade</a>
+                <a href="#" class="hover:text-white transition">Termos de Uso</a>
+                <a href="#" class="hover:text-white transition">Contato Corporativo</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script de Processamento e Renderização de Dados (Embedded Dataset) -->
+    <script>
+        // Dados brutos extraídos da planilha Porsche.xlsx (100 registros)
+        const rawData = [
+            {sale_id: 6, model: "718 Cayman", year: 2022, price: 79500, pay: "Credit Card", city: "Boston"},
+            {sale_id: 7, model: "911 Turbo S", year: 2024, price: 235000, pay: "Wire Transfer", city: "Seattle"},
+            {sale_id: 8, model: "Cayenne Coupe", year: 2023, price: 112750, pay: "Financing", city: "Austin"},
+            {sale_id: 9, model: "Macan S", year: 2021, price: 68900, pay: "Cash", city: "Denver"},
+            {sale_id: 10, model: "Taycan 4S", year: 2024, price: 121000, pay: "Bank Transfer", city: "Los Angeles"},
+            {sale_id: 11, model: "Panamera 4", year: 2023, price: 98000, pay: "Lease", city: "Miami"},
+            {sale_id: 12, model: "911 Carrera S", year: 2022, price: 135000, pay: "Credit Card", city: "New York"},
+            {sale_id: 13, model: "Cayenne E-Hybrid", year: 2024, price: 105000, pay: "Wire Transfer", city: "San Diego"},
+            {sale_id: 14, model: "718 Boxster", year: 2023, price: 72000, pay: "Financing", city: "Chicago"},
+            {sale_id: 15, model: "Macan GTS", year: 2021, price: 82000, pay: "Cash", city: "Phoenix"},
+            {sale_id: 16, model: "Taycan Turbo", year: 2024, price: 155000, pay: "Bank Transfer", city: "Dallas"},
+            {sale_id: 17, model: "911 GT3", year: 2023, price: 185000, pay: "Lease", city: "Las Vegas"},
+            {sale_id: 18, model: "Panamera Turbo S", year: 2022, price: 190000, pay: "Wire Transfer", city: "San Jose"},
+            {sale_id: 19, model: "Cayenne Turbo GT", year: 2024, price: 198000, pay: "Financing", city: "Houston"},
+            {sale_id: 20, model: "911 Carrera Cabriolet", year: 2023, price: 142000, pay: "Credit Card", city: "Atlanta"},
+            {sale_id: 21, model: "Macan", year: 2022, price: 59000, pay: "Cash", city: "Orlando"},
+            {sale_id: 22, model: "718 Spyder RS", year: 2024, price: 160000, pay: "Bank Transfer", city: "Portland"},
+            {sale_id: 23, model: "Taycan Cross Turismo", year: 2023, price: 115000, pay: "Financing", city: "Pittsburgh"},
+            {sale_id: 24, model: "Cayenne S", year: 2021, price: 89000, pay: "Lease", city: "Charlotte"},
+            {sale_id: 25, model: "911 Targa 4S", year: 2024, price: 148000, pay: "Wire Transfer", city: "Nashville"},
+            {sale_id: 26, model: "Panamera", year: 2022, price: 92000, pay: "Credit Card", city: "Minneapolis"},
+            {sale_id: 27, model: "Macan Electric", year: 2025, price: 81000, pay: "Bank Transfer", city: "Philadelphia"},
+            {sale_id: 28, model: "911 Dakar", year: 2024, price: 222000, pay: "Cash", city: "San Antonio"},
+            {sale_id: 29, model: "Taycan GTS", year: 2023, price: 138000, pay: "Financing", city: "Salt Lake City"},
+            {sale_id: 30, model: "Cayenne", year: 2022, price: 78000, pay: "Credit Card", city: "Raleigh"},
+            {sale_id: 31, model: "718 Cayman GT4 RS", year: 2024, price: 165000, pay: "Wire Transfer", city: "Detroit"},
+            {sale_id: 32, model: "911 Carrera GTS", year: 2023, price: 152000, pay: "Bank Transfer", city: "Columbus"},
+            {sale_id: 33, model: "Panamera 4 E-Hybrid", year: 2024, price: 118000, pay: "Financing", city: "Indianapolis"},
+            {sale_id: 34, model: "Macan T", year: 2023, price: 67000, pay: "Cash", city: "Fort Worth"},
+            {sale_id: 35, model: "Taycan Turbo S", year: 2024, price: 188000, pay: "Lease", city: "Jacksonville"},
+            {sale_id: 36, model: "911 Carrera", year: 2022, price: 115000, pay: "Credit Card", city: "Tampa"},
+            {sale_id: 37, model: "Taycan", year: 2023, price: 95000, pay: "Wire Transfer", city: "Sacramento"},
+            {sale_id: 38, model: "Panamera 4S", year: 2024, price: 132000, pay: "Financing", city: "Cleveland"},
+            {sale_id: 39, model: "911 Turbo", year: 2021, price: 195000, pay: "Bank Transfer", city: "Milwaukee"},
+            {sale_id: 40, model: "Panamera Turbo", year: 2023, price: 178000, pay: "Lease", city: "Kansas City"},
+            {sale_id: 41, model: "911 GT3 RS", year: 2024, price: 245000, pay: "Wire Transfer", city: "Omaha"},
+            {sale_id: 42, model: "911 Targa 4", year: 2022, price: 138000, pay: "Credit Card", city: "Albuquerque"},
+            {sale_id: 43, model: "Cayenne Turbo", year: 2023, price: 162000, pay: "Financing", city: "Tucson"},
+            {sale_id: 44, model: "718 Boxster GTS", year: 2024, price: 91000, pay: "Cash", city: "Fresno"},
+            {sale_id: 45, model: "718 Cayman S", year: 2022, price: 84000, pay: "Bank Transfer", city: "Virginia Beach"},
+            {sale_id: 46, model: "Panamera Turbo S", year: 2024, price: 192000, pay: "Lease", city: "Colorado Springs"},
+            {sale_id: 47, model: "Macan GTS", year: 2023, price: 84000, pay: "Wire Transfer", city: "Arlington"},
+            {sale_id: 48, model: "Taycan 4S", year: 2022, price: 119000, pay: "Credit Card", city: "Bakersfield"},
+            {sale_id: 49, model: "911 Carrera S", year: 2024, price: 139000, pay: "Financing", city: "Mesa"},
+            {sale_id: 50, model: "Cayenne Coupe", year: 2023, price: 114000, pay: "Cash", city: "Long Beach"},
+            {sale_id: 51, model: "718 Cayman", year: 2022, price: 80000, pay: "Credit Card", city: "Oakland"},
+            {sale_id: 52, model: "911 Turbo S", year: 2025, price: 240000, pay: "Wire Transfer", city: "Tulsa"},
+            {sale_id: 53, model: "Cayenne E-Hybrid", year: 2024, price: 108000, pay: "Financing", city: "Wichita"},
+            {sale_id: 54, model: "Macan S", year: 2023, price: 71000, pay: "Cash", city: "New Orleans"},
+            {sale_id: 55, model: "Taycan 4S", year: 2024, price: 122000, pay: "Bank Transfer", city: "Honolulu"},
+            {sale_id: 56, model: "Panamera 4", year: 2022, price: 99000, pay: "Lease", city: "Anaheim"},
+            {sale_id: 57, model: "911 Carrera S", year: 2023, price: 136000, pay: "Credit Card", city: "Henderson"},
+            {sale_id: 58, model: "Cayenne E-Hybrid", year: 2025, price: 110000, pay: "Wire Transfer", city: "Lexington"},
+            {sale_id: 59, model: "718 Boxster", year: 2024, price: 74000, pay: "Financing", city: "Riverside"},
+            {sale_id: 60, model: "Macan GTS", year: 2022, price: 81000, pay: "Cash", city: "Corpus Christi"},
+            {sale_id: 61, model: "Taycan Turbo", year: 2025, price: 158000, pay: "Bank Transfer", city: "St. Louis"},
+            {sale_id: 62, model: "911 GT3", year: 2024, price: 189000, pay: "Lease", city: "Pittsburgh"},
+            {sale_id: 63, model: "Panamera Turbo S", year: 2023, price: 191000, pay: "Wire Transfer", city: "Cincinnati"},
+            {sale_id: 64, model: "Cayenne Turbo GT", year: 2025, price: 202000, pay: "Financing", city: "Anchorage"},
+            {sale_id: 65, model: "911 Carrera Cabriolet", year: 2024, price: 145000, pay: "Credit Card", city: "Plano"},
+            {sale_id: 66, model: "Macan", year: 2023, price: 61000, pay: "Cash", city: "Newark"},
+            {sale_id: 67, model: "718 Spyder RS", year: 2025, price: 165000, pay: "Bank Transfer", city: "Greensboro"},
+            {sale_id: 68, model: "Taycan Cross Turismo", year: 2024, price: 118000, pay: "Financing", city: "Lincoln"},
+            {sale_id: 69, model: "Cayenne S", year: 2022, price: 91000, pay: "Lease", city: "Jersey City"},
+            {sale_id: 70, model: "911 Targa 4S", year: 2025, price: 152000, pay: "Wire Transfer", city: "Chandler"},
+            {sale_id: 71, model: "Panamera", year: 2024, price: 95000, pay: "Credit Card", city: "Reno"},
+            {sale_id: 72, model: "Macan Electric", year: 2026, price: 84000, pay: "Bank Transfer", city: "Buffalo"},
+            {sale_id: 73, model: "911 Dakar", year: 2025, price: 228000, pay: "Cash", city: "Durham"},
+            {sale_id: 74, model: "Taycan GTS", year: 2024, price: 142000, pay: "Financing", city: "Laredo"},
+            {sale_id: 75, model: "Cayenne", year: 2023, price: 80000, pay: "Credit Card", city: "Madison"},
+            {sale_id: 76, model: "718 Cayman GT4 RS", year: 2025, price: 169000, pay: "Wire Transfer", city: "Lubbock"},
+            {sale_id: 77, model: "911 Carrera GTS", year: 2024, price: 156000, pay: "Bank Transfer", city: "Toledo"},
+            {sale_id: 78, model: "Panamera 4 E-Hybrid", year: 2025, price: 122000, pay: "Financing", city: "Irvine"},
+            {sale_id: 79, model: "Macan T", year: 2024, price: 69000, pay: "Cash", city: "Garland"},
+            {sale_id: 80, model: "Taycan Turbo S", year: 2025, price: 192000, pay: "Lease", city: "Irving"},
+            {sale_id: 81, model: "911 Carrera", year: 2023, price: 118000, pay: "Credit Card", city: "Chesapeake"},
+            {sale_id: 82, model: "Taycan", year: 2024, price: 98000, pay: "Wire Transfer", city: "Scottsdale"},
+            {sale_id: 83, model: "Panamera 4S", year: 2025, price: 136000, pay: "Financing", city: "Norfolk"},
+            {sale_id: 84, model: "911 Turbo", year: 2022, price: 198000, pay: "Bank Transfer", city: "Boise"},
+            {sale_id: 85, model: "Panamera Turbo", year: 2024, price: 182000, pay: "Lease", city: "San Francisco"},
+            {sale_id: 86, model: "911 GT3 RS", year: 2020, price: 230000, pay: "Wire Transfer", city: "Boston"},
+            {sale_id: 87, model: "911 Targa 4", year: 2020, price: 130000, pay: "Credit Card", city: "Seattle"},
+            {sale_id: 88, model: "Cayenne Turbo", year: 2020, price: 150000, pay: "Financing", city: "Austin"},
+            {sale_id: 89, model: "718 Boxster GTS", year: 2020, price: 85000, pay: "Cash", city: "Denver"},
+            {sale_id: 90, model: "718 Cayman S", year: 2026, price: 88000, pay: "Bank Transfer", city: "Los Angeles"},
+            {sale_id: 91, model: "Panamera Turbo S", year: 2026, price: 195000, pay: "Lease", city: "Miami"},
+            {sale_id: 92, model: "Macan GTS", year: 2026, price: 85000, pay: "Wire Transfer", city: "New York"},
+            {sale_id: 93, model: "Taycan 4S", year: 2025, price: 125000, pay: "Credit Card", city: "San Diego"},
+            {sale_id: 94, model: "Panamera 4", year: 2025, price: 102000, pay: "Financing", city: "Chicago"},
+            {sale_id: 95, model: "911 Carrera S", year: 2025, price: 142000, pay: "Cash", city: "Phoenix"},
+            {sale_id: 96, model: "Cayenne E-Hybrid", year: 2026, price: 112000, pay: "Bank Transfer", city: "Dallas"},
+            {sale_id: 97, model: "718 Boxster", year: 2025, price: 76000, pay: "Lease", city: "Las Vegas"},
+            {sale_id: 98, model: "Macan GTS", year: 2025, price: 86000, pay: "Wire Transfer", city: "San Jose"},
+            {sale_id: 99, model: "Taycan Turbo", year: 2026, price: 162000, pay: "Financing", city: "Houston"},
+            {sale_id: 100, model: "911 GT3", year: 2025, price: 192000, pay: "Credit Card", city: "Atlanta"}
+        ];
+
+        let chartCityModelInstance = null;
+        let chartModelYearInstance = null;
+        let chartPayMethodInstance = null;
+
+        // Inicializar Filtros
+        function initFilters() {
+            const models = [...new Set(rawData.map(d => d.model))].sort();
+            const years = [...new Set(rawData.map(d => d.year))].sort((a,b) => a-b);
+            const cities = [...new Set(rawData.map(d => d.city))].sort();
+            const pays = [...new Set(rawData.map(d => d.pay))].sort();
+
+            populateSelect('filter-model', models);
+            populateSelect('filter-year', years);
+            populateSelect('filter-city', cities);
+            populateSelect('filter-pay', pays);
+        }
+
+        function populateSelect(id, items) {
+            const select = document.getElementById(id);
+            items.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item;
+                opt.textContent = item;
+                select.appendChild(opt);
+            });
+        }
+
+        function getFilteredData() {
+            const m = document.getElementById('filter-model').value;
+            const y = document.getElementById('filter-year').value;
+            const c = document.getElementById('filter-city').value;
+            const p = document.getElementById('filter-pay').value;
+
+            return rawData.filter(d => {
+                return (!m || d.model === m) &&
+                       (!y || d.year == y) &&
+                       (!c || d.city === c) &&
+                       (!p || d.pay === p);
+            });
+        }
+
+        function updateKPIs(data) {
+            document.getElementById('kpi-total-sales').textContent = data.length;
+            
+            const totalRev = data.reduce((acc, curr) => acc + curr.price, 0);
+            document.getElementById('kpi-total-revenue').textContent = '$' + (totalRev / 1000000).toFixed(2) + 'M';
+
+            // Top Year count
+            const yearCounts = {};
+            data.forEach(d => yearCounts[d.year] = (yearCounts[d.year] || 0) + 1);
+            let topYear = '-';
+            let maxYearCount = 0;
+            for (let yr in yearCounts) {
+                if (yearCounts[yr] > maxYearCount) {
+                    maxYearCount = yearCounts[yr];
+                    topYear = `${yr} (${maxYearCount}un)`;
+                }
+            }
+            document.getElementById('kpi-top-year').textContent = topYear;
+
+            // Top Model count
+            const modelCounts = {};
+            data.forEach(d => modelCounts[d.model] = (modelCounts[d.model] || 0) + 1);
+            let topModel = '-';
+            let maxModelCount = 0;
+            for (let mdl in modelCounts) {
+                if (modelCounts[mdl] > maxModelCount) {
+                    maxModelCount = modelCounts[mdl];
+                    topModel = `${mdl}`;
+                }
+            }
+            document.getElementById('kpi-top-model').textContent = topModel !== '-' ? `${topModel} (${maxModelCount}un)` : '-';
+
+            // Active filters badge
+            let activeCount = 0;
+            if(document.getElementById('filter-model').value) activeCount++;
+            if(document.getElementById('filter-year').value) activeCount++;
+            if(document.getElementById('filter-city').value) activeCount++;
+            if(document.getElementById('filter-pay').value) activeCount++;
+
+            const badge = document.getElementById('active-filters-count');
+            if(activeCount > 0) {
+                badge.textContent = `${activeCount} filtro(s) ativo(s)`;
+                badge.className = "text-xs bg-porsche-red text-white px-2.5 py-1 rounded font-medium shadow";
+            } else {
+                badge.textContent = "Exibindo todos os registros";
+                badge.className = "text-xs bg-porsche-red/10 text-porsche-red px-2.5 py-1 rounded font-medium border border-porsche-red/20";
+            }
+        }
+
+        function updateCharts(data) {
+            // Chart 1: Top Models by City (Top 8 cities for display clarity)
+            const cityCounts = {};
+            data.forEach(d => cityCounts[d.city] = (cityCounts[d.city] || 0) + 1);
+            const topCities = Object.keys(cityCounts).sort((a,b) => cityCounts[b] - cityCounts[a]).slice(0, 8);
+            
+            // Para cada cidade top, encontrar o modelo mais vendido
+            const cityModelLabels = topCities;
+            const cityModelData = topCities.map(city => {
+                const cityRows = data.filter(d => d.city === city);
+                const mCounts = {};
+                cityRows.forEach(r => mCounts[r.model] = (mCounts[r.model] || 0) + 1);
+                let bestM = '';
+                let maxC = 0;
+                for(let m in mCounts) {
+                    if(mCounts[m] > maxC) {
+                        maxC = mCounts[m];
+                        bestM = m;
+                    }
+                }
+                return maxC;
+            });
+            const cityModelNames = topCities.map(city => {
+                const cityRows = data.filter(d => d.city === city);
+                const mCounts = {};
+                cityRows.forEach(r => mCounts[r.model] = (mCounts[r.model] || 0) + 1);
+                let bestM = '';
+                let maxC = 0;
+                for(let m in mCounts) {
+                    if(mCounts[m] > maxC) {
+                        maxC = mCounts[m];
+                        bestM = m;
+                    }
+                }
+                return `${bestM} (${maxC})`;
+            });
+
+            if (chartCityModelInstance) chartCityModelInstance.destroy();
+            const ctx1 = document.getElementById('chartCityModel').getContext('2d');
+            chartCityModelInstance = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: cityModelLabels,
+                    datasets: [{
+                        label: 'Qtd de Vendas (Principal Modelo)',
+                        data: cityModelData,
+                        backgroundColor: '#D5001C',
+                        borderRadius: 4,
+                        hoverBackgroundColor: '#ff1a38'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Destaque: ${cityModelNames[context.dataIndex]}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { color: '#262626' }, ticks: { color: '#9CA3AF', font: { size: 11 } } },
+                        y: { grid: { color: '#262626' }, ticks: { color: '#9CA3AF', stepSize: 1 } }
+                    }
+                }
+            });
+
+            // Chart 2: Model Year Distribution
+            const years = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+            const yearCountsData = years.map(yr => data.filter(d => d.year === yr).length);
+
+            if (chartModelYearInstance) chartModelYearInstance.destroy();
+            const ctx2 = document.getElementById('chartModelYear').getContext('2d');
+            chartModelYearInstance = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Unidades Vendidas',
+                        data: yearCountsData,
+                        borderColor: '#D5001C',
+                        backgroundColor: 'rgba(213, 0, 28, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#FFFFFF',
+                        pointBorderColor: '#D5001C',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#262626' }, ticks: { color: '#9CA3AF' } },
+                        y: { grid: { color: '#262626' }, ticks: { color: '#9CA3AF', stepSize: 5 } }
+                    }
+                }
+            });
+
+            // Chart 3: Pay Method Doughnut
+            const payMethods = [...new Set(rawData.map(d => d.pay))];
+            const payCounts = payMethods.map(p => data.filter(d => d.pay === p).length);
+
+            if (chartPayMethodInstance) chartPayMethodInstance.destroy();
+            const ctx3 = document.getElementById('chartPayMethod').getContext('2d');
+            chartPayMethodInstance = new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: payMethods,
+                    datasets: [{
+                        data: payCounts,
+                        backgroundColor: [
+                            '#D5001C', '#C5A059', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#64748B', '#F59E0B', '#14B8A6'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#9CA3AF', boxWidth: 12, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function applyFilters() {
+            const filtered = getFilteredData();
+            updateKPIs(filtered);
+            updateCharts(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-model').value = "";
+            document.getElementById('filter-year').value = "";
+            document.getElementById('filter-city').value = "";
+            document.getElementById('filter-pay').value = "";
+            applyFilters();
+        }
+
+        // Inicialização ao carregar a página
+        window.addEventListener('DOMContentLoaded', () => {
+            initFilters();
+            applyFilters();
+        });
+    </script>
+</body>
+</html>
