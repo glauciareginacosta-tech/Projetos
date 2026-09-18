@@ -1,4 +1,4 @@
-**Readme in English and Portuguese.**
+                                This README is available in English and Portuguese.
 
 # Demand Analysis Dashboard in Function Point
 
@@ -43,9 +43,9 @@ This project consists of an interactive dashboard developed in Excel, aimed at a
 ## Contributions
 This project was developed for academic purposes and to demonstrate technical skills. Feedback and suggestions for improvements are welcome!
 
----
-
 **Note:** This project combines technical analysis with a playful interaction involving artificial intelligence, illustrating the integration of various technologies for educational and presentation purposes.
+
+-------------------
 
 # Dashboard de Análise de Demandas em Ponto de Função
 
