@@ -1,82 +1,126 @@
-# Sistema de Criptografia  de Arquivos
-O FileEncryptor é um utilitário em Python projetado para proteger a privacidade e segurança de dados locais. O sistema realiza a criptografia e descriptografia em lote de todos os arquivos contidos em um diretório específico utilizando criptografia simétrica de alta segurança (AES-128 em modo CBC com autenticação HMAC / Fernet).
+                               This README is available in English and Portuguese.
+
+# Sistema de Criptografia de Arquivos (FileEncryptor)
+
+O **FileEncryptor** é um utilitário em Python projetado para proteger a privacidade e segurança de dados locais. O sistema realiza criptografia e descriptografia em lote de todos os arquivos contidos em um diretório específico, utilizando criptografia simétrica de alta segurança (AES-128 em modo CBC com autenticação HMAC, implementado via Fernet).
+
 ---
+
 ## Funcionalidades
-- Geração de Chaves Seguras: Criação de chaves criptográficas aleatórias (`.key`).
 
-- Criptografia em Lote: Cifra automaticamente todos os arquivos de um diretório selecionado.
+- **Geração de Chaves Seguras:** Cria chaves criptográficas aleatórias (`.key`) para uso no sistema.
+- **Criptografia em Lote:** Cifra automaticamente todos os arquivos de um diretório selecionado.
+- **Descriptografia em Lote:** Restaura os arquivos ao seu estado original usando a chave gerada.
+- **Integridade Garantida:** Impede a leitura de arquivos que tenham sido modificados ou corrompidos durante o processo, garantindo a autenticidade dos dados.
 
-- Descriptografia em Lote: Reverte os arquivos ao estado original utilizando a chave gerada
-
-- Integridade Garantida: Impede a leitura de arquivos modificados ou corrompidos durante o processo.
 ---
+
 ## Pré-requisitos
-- Python 3.8 ou superior.
-- Biblioteca `cryptography`.
+
+- Python 3.8 ou superior   This README is available in English and Portuguese.
+
+# Sistema de Criptografia de Arquivos (FileEncryptor)
+
+O **FileEncryptor** é um utilitário em Python projetado para proteger a privacidade e segurança de dados locais. O sistema realiza criptografia e descriptografia em lote de todos os arquivos contidos em um diretório específico, utilizando criptografia simétrica de alta segurança (AES-128 em modo CBC com autenticação HMAC, implementado via Fernet).
+
 ---
-## Instalação das dependências
- - cryptography
+
+## Funcionalidades
+
+- **Geração de Chaves Seguras:** Cria chaves criptográficas aleatórias (`.key`) para uso no sistema.
+- **Criptografia em Lote:** Cifra automaticamente todos os arquivos de um diretório selecionado.
+- **Descriptografia em Lote:** Restaura os arquivos ao seu estado original usando a chave gerada.
+- **Integridade Garantida:** Impede a leitura de arquivos que tenham sido modificados ou corrompidos durante o processo, garantindo a autenticidade dos dados.
+
 ---
+
+## Pré-requisitos
+
+- Python 3.8 ou superior  
+- Biblioteca `cryptography` (instalável via `pip`)
+
+---
+
+## Instalação das Dependências
+
+Execute o comando abaixo para instalar a biblioteca necessária:
+
+```bash
+pip install cryptography
+```
+
+---
+
 ## Estrutura do Código
-O script contém as seguintes funções principais:
-- gerar_chave(): Gera uma chave de criptografia Fernet e a salva em um arquivo local (chave.key).
-- carregar_chave(): Lê e retorna a chave armazenada em chave.key.
-- criptografar_pasta(caminho_pasta, chave): Percorre todos os arquivos da pasta informada e substitui o conteúdo original pelo conteúdo cifrado.
-- descriptografar_pasta(caminho_pasta, chave): Lê os arquivos cifrados da pasta e restaura o conteúdo original usando a chave fornecida.
+
+O script principal contém as seguintes funções:
+
+- `gerar_chave()`: Gera uma chave de criptografia Fernet e a salva em um arquivo (`chave.key`).
+- `carregar_chave()`: Carrega a chave armazenada no arquivo `chave.key`.
+- `criptografar_pasta(caminho_pasta, chave)`: Criptografa todos os arquivos presentes na pasta especificada.
+- `descriptografar_pasta(caminho_pasta, chave)`: Restaura os arquivos criptografados ao seu estado original usando a chave.
+
 ---
+
 ## Como Usar
- - Gerar a chave e criptografar a pasta
 
-## Para proteger os arquivos de um diretório:
-Efetue a execução das funções de criptografia do sistema de 1 à 6. 
-## Atenção
-Mantenha o arquivo chave.key em local seguro. Se você perder este arquivo, os dados criptografados não poderão ser recuperados.
+### Para proteger os arquivos de um diretório:
 
- - Descriptografar a pasta com a chave
-Para restaurar os arquivos criptografados ao estado original:
-Efetue a execução das funções da criptografia: 2 e 4 e posteriormente execute as funções 1 à 3 da descriptografia.
+1. **Gerar a chave de criptografia**:
+
+```python
+gerar_chave()
+```
+
+2. **Criptografar a pasta desejada**:
+
+```python
+caminho = 'caminho/para/sua/pasta'
+chave = carregar_chave()
+criptografar_pasta(caminho, chave)
+```
+
+### Para restaurar os arquivos ao estado original:
+
+1. **Carregar a chave**:
+
+```python
+chave = carregar_chave()
+```
+
+2. **Descriptografar a pasta**:
+
+```python
+descriptografar_pasta(caminho, chave)
+```
+
 ---
-## Boas Práticas de Segurança
- - Backup: Crie uma pasta para testar o sistema ou faça backup dos seus dados antes de rodar o script em pastas com informações críticas;
- - Segurança da Chave: Sem a chave correta, a reversão dos arquivos através do processo de descriptografia é computacionalmente inviável. Ou seja, realize a criptografia e descriptografia deste sistema.
------------------------------------------------
-# IN ENGLISH
 
-# File Encryption System
-The FileEncryptor is a Python utility designed to protect the privacy and security of local data. The system performs batch encryption and decryption of all files contained within a specified directory using high-security symmetric encryption (AES-128 in CBC mode with HMAC authentication / Fernet).
----
-## Features
-- Secure Key Generation: Creates random cryptographic keys (.key).
-- Batch Encryption: Automatically encrypts all files within a selected directory.
-- Batch Decryption: Restores files to their original state using the generated key.
-- Guaranteed Integrity: Prevents the reading of files that have been modified or corrupted during the process.
----    
-## Prerequisites
-- Python 3.8 or higher.
-- cryptography library.
----    
-## Installing Dependencies
-cryptography
----
-## Code Structure
-The script contains the following main functions:
-- gerar_chave(): Generates a Fernet encryption key and saves it to a local file (chave.key).
-- carregar_chave(): Reads and returns the key stored in chave.key.
-- criptografar_pasta(caminho_pasta, chave): Iterates through all files in the specified directory and replaces their original content with encrypted data.
-- descriptografar_pasta(caminho_pasta, chave): Reads the encrypted files in the directory and restores their original content using the provided key.
----    
-## Usage
-- Generate the Key and Encrypt the Directory
-To protect the files within a directory:
-   Execute the system's encryption functions from 1 to 6.
-##Warning: 
-Keep the chave.key file in a secure location. If this file is lost, the encrypted data cannot be recovered.
+## Recomendações e Cuidados
 
-- Decrypt the Directory
-To restore the encrypted files to their original state:
-   Execute encryption functions 2 and 4, and subsequently execute decryption functions 1 to 3.
----
-## Security Best Practices
-- Backup: Create a test folder to evaluate the system, or back up your data prior to running the script on directories containing critical information.
-- Key Security: Without the correct key, reversing the file encryption process is computationally infeasible. Ensure that you perform both the encryption and decryption processes using this system.
+- **Armazenamento Seguro da Chave:** Mantenha o arquivo `chave.key` em local seguro. Se perdê-lo, a recuperação dos arquivos criptografados será inviável.
+- **Backup:** Antes de executar operações de criptografia em pastas com dados críticos, faça backups ou utilize uma pasta de teste.
+- **Segurança da Chave:** A chave é essencial para descriptografar os arquivos. Nunca compartilhe ou perca esta chave.
 
+---
+
+## Resumo do Processo
+
+| Ação                     | Passo | Descrição                                          |
+|--------------------------|---------|------------------------------------------------------|
+| Gerar chave             | 1       | Executar `gerar_chave()` para criar e salvar a chave|
+| Criptografar pasta      | 2       | Executar `criptografar_pasta()` com a chave carregada |
+| Manter a chave segura   | 3       | Guardar `chave.key` em local seguro                 |
+| Descriptografar pasta   | 4       | Executar `descriptografar_pasta()` com a chave carregada |
+
+---
+
+## Observações Finais
+
+- Utilize o sistema com cuidado, especialmente em pastas com dados importantes.
+- A segurança do processo depende do armazenamento adequado da chave.
+- Para mais informações ou suporte, consulte a documentação do seu projeto ou entre em contato.
+
+---
+
+Se desejar, posso gerar uma versão em inglês ou adaptar ainda mais o conteúdo.
