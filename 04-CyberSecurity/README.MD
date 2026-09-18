@@ -17,7 +17,6 @@
 
 ## Prerequisites
 - Python 3.8 or higher
-- This README is available in English and Portuguese.
 
 ---
 
@@ -115,7 +114,10 @@ descriptografar_pasta(caminho, chave)
 
 ## Pré-requisitos
 
-- Python 3.8 ou superior   This README is available in English and Portuguese.
+- Python 3.8 ou superior   
+
+-------------------------
+
 
 # Sistema de Criptografia de Arquivos (FileEncryptor)
 
@@ -217,6 +219,3 @@ descriptografar_pasta(caminho, chave)
 - Utilize o sistema com cuidado, especialmente em pastas com dados importantes.
 - A segurança do processo depende do armazenamento adequado da chave.
 - Para mais informações ou suporte, consulte a documentação do seu projeto ou entre em contato.
-
-
-
