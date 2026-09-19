@@ -1,0 +1,49 @@
+# Projeto de Coleta de Dicas de Investimento para Usuários de um Site
+
+Este projeto em Python foi desenvolvido para coletar informações de usuários de um site e fornecer dicas de investimento personalizadas. O sistema realiza um loop para buscar uma dica de investimento para cada usuário e, ao final, grava todas as informações coletadas em um arquivo para análise posterior.
+
+## Funcionalidades
+
+- Leitura de informações de usuários de uma fonte (web)
+- Para cada usuário, busca uma dica de investimento personalizada via IA
+- Armazena os resultados (usuário + dica de investimento) em uma estrutura de dados
+- Salva todas as informações em um arquivo de saída (ex.: JSON, CSV)
+
+## Pré-requisitos
+
+- Python 3.x
+- Bibliotecas necessárias: `requests`, `pandas`, os`, `OpenRouter etc.
+- Modelo de IA: Nex AGI: Nex-N2.5-Mini (free)`
+
+## Como usar
+
+1. Clone este repositório ou faça o download do arquivo `ProjetoDicaInvestimento.ipynb`.
+
+2. Abra-o no Colab - Adicione as API de IA e rode. 
+**(GitHub não permite a inserção do arquivo com API configurada)**.
+
+5. Após a execução, o arquivo `investment_data_with_tips.csv` conterá todas as informações coletadas.
+
+## Estrutura do Código
+
+- `main.py`: arquivo principal que controla o fluxo do programa
+- `usuarios.json` ou `usuarios.csv`: fonte de dados com informações dos usuários (opcional)
+- `utils.py`: funções auxiliares, como busca de dicas e gravação de arquivos
+
+## Personalização
+
+- Você pode modificar a fonte de dados dos usuários alterando a parte do código responsável pela leitura.
+- A lógica de busca de dicas pode ser ajustada de acordo com a API ou método utilizado.
+- O formato de saída pode ser alterado para JSON, CSV, etc.
+
+## Aviso
+
+Este projeto é uma implementação básica e pode precisar de ajustes de acordo com a fonte de dados real, API de dicas de investimento e requisitos específicos.
+
+## Contato
+
+Para dúvidas ou sugestões, entre em contato: [seuemail@exemplo.com]
+
+---
+
+**Observação:** Certifique-se de respeitar as políticas de privacidade e uso de dados ao coletar informações de usuários.
