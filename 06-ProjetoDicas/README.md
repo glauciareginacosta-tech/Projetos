@@ -1,4 +1,4 @@
-This README is available in Portuguese and English
+                        This README is available in Portuguese and English
 
 # Projeto de Coleta de Dicas de Investimento para Usuários de um Site
 
