@@ -1,3 +1,5 @@
+                                       This README is available in English and Portuguese.
+   
 # Fraud Detection in Transactions Project - Data Science
 
 ## Purpose
