@@ -1,4 +1,4 @@
-                                       This README is available in English and Portuguese.
+                            This README is available in English and Portuguese.
    
 
 # Project Documentation - HELLOWORLD - CrewAI
@@ -11,13 +11,13 @@ This project is a Python application that utilizes CrewAI to generate creative i
 
 ### Python
 
-![Python Logo](https://www.python.org/community/logos/python-logo.png)
+![Python Logo](https://www.python.org/static/community_logos/python-logo.png)
 
 Python is a high-level programming language.
 
 ### CrewAI
 
-![CrewAI Logo](https://crew.ai/assets/crewai_logo.png)
+![CrewAI Logo](https://raw.githubusercontent.com/crewAIInc/crewAI/main/docs/crewai_logo.png)
 
 CrewAI is a library that simplifies working with artificial intelligence and natural language processing, enabling the development of interactive applications with agents and tasks to meet various needs. In this project, we are leveraging CrewAI to orchestrate the generation of creative ideas using a specific AI-based model.
 
@@ -56,13 +56,13 @@ Este projeto é uma aplicação em Python que utiliza o CrewAI para gerar ideias
 
 ### Python
 
-![Python Logo](https://www.python.org/community/logos/python-logo.png)
+![Python Logo](https://www.python.org/static/community_logos/python-logo.png)
 
 Python é uma linguagem de programação de alto nível.
 
 ### CrewAI
 
-![CrewAI Logo](https://crew.ai/assets/crewai_logo.png)
+![CrewAI Logo](https://raw.githubusercontent.com/crewAIInc/crewAI/main/docs/crewai_logo.png)
 
 CrewAI é uma biblioteca que facilita o trabalho com inteligência artificial e processamento de linguagem natural, permitindo desenvolver aplicativos interativos com agentes e tarefas para atender a diversas necessidades. Neste projeto, estamos aproveitando o CrewAI para orquestrar a geração de ideias criativas usando um modelo específico baseado em IA.
 
@@ -75,7 +75,7 @@ Abra o arquivo anexo "HELLOWORLD-CrewAI.ipynb" no colab.
 ### Configuração
 
 Antes de executar o código, você deve:
-1 -  cadastrar a chave da API da OpenRouter no *Secrets* do Colab com o nome:OPENROUTER_API_KEY
+1 -  cadastrar a chave da API da OpenRouter no *Secrets* do Colab com o nome: OPENROUTER_API_KEY
 
 ### Executando o Código
 
@@ -89,3 +89,5 @@ Execute o código no colab. O resultado será gerado e salvo em um arquivo Markd
 ## Contribuições
 
 Se você quiser contribuir para este projeto, sinta-se à vontade para abrir uma questão ou uma solicitação de pull. Sua contribuição é bem-vinda!
+
+```
