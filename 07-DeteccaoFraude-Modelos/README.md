@@ -43,7 +43,7 @@ The objective of this project is to explore and evaluate various supervised clas
 At the conclusion of the project, we identified the model with the best performance for the detection of fraud in credit card transactions.
 
 ## System Used
-The project was developed and executed in Google Colab. ![Image Link](add_image_link_here)
+The project was developed and executed in Google Colab. <img src="https://github.com/glauciareginacosta-tech/Projetos/blob/main/07-DeteccaoFraude-Modelos/colab.png" alt="Colab" width="25" />
 
 ### Step-by-Step Guide to Running the System in Google Colab
 1. Open one of the `*.ipynb` files in Google Colab (note that both are identical; however, one contains text and comments in Portuguese while the other is in English).
@@ -95,7 +95,7 @@ O objetivo deste projeto é explorar e avaliar diversos modelos de classificaç�
 Ao final do projeto, identificamos o modelo com o melhor desempenho para a detecção de fraudes em transações de cartão de crédito.
 
 ## Sistema Utilizado
-O projeto foi desenvolvido e executado no Google Colab. ![Link da imagem](adicionar_o_link_da_imagem_aqui)
+O projeto foi desenvolvido e executado no Google Colab. <img src="https://github.com/glauciareginacosta-tech/Projetos/blob/main/07-DeteccaoFraude-Modelos/colab.png" alt="Colab" width="25" />
 
 ### Passo a Passo para Executar o Sistema no Google Colab
 1. Abra um dos arquivos `*.ipynb` no Google Colab (observação ambos são iguais, entretanto um está com com textos e comentários em português e outro em inglês).
