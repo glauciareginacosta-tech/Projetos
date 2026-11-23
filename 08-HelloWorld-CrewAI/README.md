@@ -9,16 +9,10 @@ This project is a Python application that utilizes CrewAI to generate creative i
 
 ## Technologies
 
-### Python
-
-![Python Logo](https://www.python.org/static/community_logos/python-logo.png)
-
+### Python <img src="https://www.python.org/static/community_logos/python-logo.png" alt="Python" width="100" />
 Python is a high-level programming language.
 
-### CrewAI
-
-![CrewAI Logo](https://github.com/crewAIInc.png)
-
+### CrewAI <img src="https://github.com/crewAIInc.png" alt="CrewAI" width="25" />
 CrewAI is a library that simplifies working with artificial intelligence and natural language processing, enabling the development of interactive applications with agents and tasks to meet various needs. In this project, we are leveraging CrewAI to orchestrate the generation of creative ideas using a specific AI-based model.
 
 ## How to Run
@@ -54,16 +48,10 @@ Este projeto é uma aplicação em Python que utiliza o CrewAI para gerar ideias
 
 ## Tecnologias
 
-### Python
-
-![Python Logo](https://www.python.org/static/community_logos/python-logo.png)
-
+### Python <img src="https://www.python.org/static/community_logos/python-logo.png" alt="Python" width="100" />
 Python é uma linguagem de programação de alto nível.
 
-### CrewAI
-
-![CrewAI Logo](https://github.com/crewAIInc.png)
-
+### CrewAI <img src="https://github.com/crewAIInc.png" alt="CrewAI" width="25" />
 CrewAI é uma biblioteca que facilita o trabalho com inteligência artificial e processamento de linguagem natural, permitindo desenvolver aplicativos interativos com agentes e tarefas para atender a diversas necessidades. Neste projeto, estamos aproveitando o CrewAI para orquestrar a geração de ideias criativas usando um modelo específico baseado em IA.
 
 ## Como Rodar
